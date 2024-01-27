@@ -1,6 +1,4 @@
-# Valhalla Kitchen
-
-Para a fase 2, executar os seguintes comandas :
+# Pagamento - Valhalla Kitchen
 
 1-	Clonar o repositório utilizando o comando:
 
