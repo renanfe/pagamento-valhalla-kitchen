@@ -6,6 +6,3 @@ Para a fase 2, executar os seguintes comandas :
 
 <code>git clone https://github.com/caiolepetit/api-valhalla-kitchen.git</code>
 
-2-	Na raiz do projeto executar o comando:
-
-<code>Kubectl apply -f kubernets</code>
