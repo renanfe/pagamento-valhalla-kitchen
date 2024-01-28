@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -26,10 +25,8 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: SonarQube
-        uses: SonarSource/sonarcloud-github-action@master
+      - name: Build with Maven and analyze with SonarQube
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B package sonar:sonar --file pom.xml -Dsonar.projectKey=renanfe_pagamento-valhalla-kitchen
