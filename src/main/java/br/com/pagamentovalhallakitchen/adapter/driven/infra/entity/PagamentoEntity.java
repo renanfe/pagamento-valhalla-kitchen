@@ -3,10 +3,7 @@ package br.com.pagamentovalhallakitchen.adapter.driven.infra.entity;
 import br.com.pagamentovalhallakitchen.core.domain.Status;
 import br.com.pagamentovalhallakitchen.core.domain.TipoPagamento;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,7 +11,7 @@ import java.util.Date;
 import java.util.UUID;
 @Entity()
 @Table(name = "pagamento")
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

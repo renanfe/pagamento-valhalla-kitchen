@@ -1,5 +1,6 @@
 package br.com.pagamentovalhallakitchen.utils;
 
+import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.core.domain.TipoPagamento;
@@ -34,5 +35,15 @@ public class PagamentoHelper {
 
     public static BigDecimal gerarBigDecimal() {
         return BigDecimal.ONE;
+    }
+
+    public static PagamentoEntity buildPagamentoEntity () {
+        return PagamentoEntity.builder()
+                .id(gerarLong())
+                .clienteId(UUID.randomUUID())
+                .pedidoId(gerarLong())
+                .tipoPagamento(TipoPagamento.CREDITO)
+                .preco(gerarBigDecimal())
+                .build();
     }
 }
