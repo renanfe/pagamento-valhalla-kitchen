@@ -1,12 +1,21 @@
 package br.com.pagamentovalhallakitchen.repository;
 
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.PagamentoRepositoryImpl;
+import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
+import br.com.pagamentovalhallakitchen.adapter.driven.infra.jpa.PagamentoRepositoryJpa;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
+import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
@@ -18,26 +27,31 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class PagamentoRepositoryImplTest {
 
-    @Mock
     private PagamentoRepositoryImpl pagamentoRepository;
+    @Mock
+    private PagamentoRepositoryJpa pagamentoRepositoryJpa;
+
+    @BeforeEach
+    void setUp() {
+        pagamentoRepository = new PagamentoRepositoryImpl(pagamentoRepositoryJpa);
+    }
 
     @Test
     public void quandoSalvoOPagamento_entaoDeveSalvarComSucesso() {
         Pagamento pagamento2Insert = PagamentoHelper.buildPagamento();
-        when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
+        when(pagamentoRepositoryJpa.save(any(PagamentoEntity.class))).thenReturn(PagamentoHelper.buildPagamentoEntity());
         Pagamento pagamento = pagamentoRepository.salvarPagamento(pagamento2Insert);
         assertNotNull(pagamento);
-        verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
-
+        verify(pagamentoRepositoryJpa, times(1)).save(any(PagamentoEntity.class));
     }
 
     @Test
     public void quandoBuscoPorUmPagamento_entaoRetornaUmPagamento() {
         Optional<Pagamento> pagamento2Insert = Optional.of(PagamentoHelper.buildPagamento());
-        when(pagamentoRepository.buscarPagamento(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamento()));
+        when(pagamentoRepositoryJpa.findById(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamentoEntity()));
         Optional<Pagamento> pagamento = pagamentoRepository.buscarPagamento(PagamentoHelper.gerarLong());
         assertTrue(pagamento.isPresent());
-        verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));
+        verify(pagamentoRepositoryJpa, times(1)).findById(any(Long.class));
 
     }
 
