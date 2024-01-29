@@ -22,3 +22,6 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+    - name: Run Sonar
+      run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=renanfe_pagamento-valhalla-kitchen
