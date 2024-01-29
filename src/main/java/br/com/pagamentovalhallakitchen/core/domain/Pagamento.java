@@ -2,12 +2,14 @@ package br.com.pagamentovalhallakitchen.core.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-@Data
+@Getter
 @Builder
 public class Pagamento {
 
@@ -21,6 +23,7 @@ public class Pagamento {
     private Date dataTransacao = new Date();
 
     @Builder.Default
+    @Setter
     private Status status = Status.PENDENTE;
 
 }
