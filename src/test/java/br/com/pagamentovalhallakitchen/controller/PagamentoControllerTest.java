@@ -26,14 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(PagamentoController.class)
 @ExtendWith(MockitoExtension.class)
-public class PagamentoControllerTest{
+class PagamentoControllerTest{
 
     @MockBean
     private PagamentoService pagamentoService;
     @Autowired
     private MockMvc mvc;
     @Test
-    public void quandoEuEfetuoUmPagamento_entaoOPagamentoDeveSerRetornado() throws Exception {
+    void quandoEuEfetuoUmPagamento_entaoOPagamentoDeveSerRetornado() throws Exception {
         PagamentoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
         Pagamento pagamento = PagamentoHelper.buildPagamento();
         when(pagamentoService.efetuarPagamento(any(PagamentoForm.class))).thenReturn(pagamento);
@@ -47,7 +47,7 @@ public class PagamentoControllerTest{
     }
 
     @Test
-    public void quandoBuscoUmPagamentoComId_EntaoRetornaAsInformacoesPagamento() throws Exception {
+    void quandoBuscoUmPagamentoComId_EntaoRetornaAsInformacoesPagamento() throws Exception {
         Long id = PagamentoHelper.gerarLong();
         Optional<Pagamento> pagamento = Optional.of(PagamentoHelper.buildPagamento());
         when(pagamentoService.buscarPagamentoPorId(any(Long.class))).thenReturn(pagamento);
@@ -60,7 +60,7 @@ public class PagamentoControllerTest{
     }
 
     @Test
-    public void quandoCanceloUmPagamento_entaoRetornaPagamentoComStatusCancelado() throws Exception {
+    void quandoCanceloUmPagamento_entaoRetornaPagamentoComStatusCancelado() throws Exception {
         Long id = PagamentoHelper.gerarLong();
         Optional<Pagamento> pagamento = Optional.of(PagamentoHelper.buildPagamento());
         when(pagamentoService.cancelarPagamento(any(Long.class))).thenReturn(pagamento);

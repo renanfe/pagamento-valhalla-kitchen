@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class PagamentoServiceTest {
+class PagamentoServiceTest {
     private PagamentoService pagamentoService;
     @Mock
     private PagamentoRepository pagamentoRepository;
@@ -28,7 +28,7 @@ public class PagamentoServiceTest {
         pagamentoService = new PagamentoService(pagamentoRepository);
     }
     @Test
-    public void quandoEuRealizoOPagamento_entaoDeveRetornarPagamento(){
+    void quandoEuRealizoOPagamento_entaoDeveRetornarPagamento(){
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
         Pagamento pagamento = pagamentoService.efetuarPagamento(PagamentoHelper.buildPagamentoForm());
         assertNotNull(pagamento);
@@ -36,7 +36,7 @@ public class PagamentoServiceTest {
     }
 
     @Test
-    public void quandoEuBuscoOPagamento_entaoDeveRetornarPagamento(){
+    void quandoEuBuscoOPagamento_entaoDeveRetornarPagamento(){
         when(pagamentoRepository.buscarPagamento(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamento()));
         Optional<Pagamento> pagamento = pagamentoService.buscarPagamentoPorId(PagamentoHelper.gerarLong());
         assertTrue(pagamento.isPresent());
@@ -44,7 +44,7 @@ public class PagamentoServiceTest {
     }
 
     @Test
-    public void quandoEuCanceloOPagamento_entaoDeveRetornarPagamentoCancelado(){
+    void quandoEuCanceloOPagamento_entaoDeveRetornarPagamentoCancelado(){
         Pagamento pagamento = PagamentoHelper.buildPagamento();
         doReturn(Optional.of(pagamento)).when(pagamentoRepository).buscarPagamento(any(Long.class));
         doReturn(pagamento).when(pagamentoRepository).salvarPagamento(any(Pagamento.class));
