@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PagamentoRepositoryImplTest {
+class PagamentoRepositoryImplTest {
 
     private PagamentoRepositoryImpl pagamentoRepository;
     @Mock
@@ -37,7 +37,7 @@ public class PagamentoRepositoryImplTest {
     }
 
     @Test
-    public void quandoSalvoOPagamento_entaoDeveSalvarComSucesso() {
+    void quandoSalvoOPagamento_entaoDeveSalvarComSucesso() {
         Pagamento pagamento2Insert = PagamentoHelper.buildPagamento();
         when(pagamentoRepositoryJpa.save(any(PagamentoEntity.class))).thenReturn(PagamentoHelper.buildPagamentoEntity());
         Pagamento pagamento = pagamentoRepository.salvarPagamento(pagamento2Insert);
@@ -46,7 +46,7 @@ public class PagamentoRepositoryImplTest {
     }
 
     @Test
-    public void quandoBuscoPorUmPagamento_entaoRetornaUmPagamento() {
+    void quandoBuscoPorUmPagamento_entaoRetornaUmPagamento() {
         Optional<Pagamento> pagamento2Insert = Optional.of(PagamentoHelper.buildPagamento());
         when(pagamentoRepositoryJpa.findById(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamentoEntity()));
         Optional<Pagamento> pagamento = pagamentoRepository.buscarPagamento(PagamentoHelper.gerarLong());

@@ -6,6 +6,10 @@ import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 
 public class PagamentoMapper {
 
+    PagamentoMapper(){
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Pagamento pagamentoFormToPagamento(PagamentoForm pagamentoForm){
         return Pagamento.builder()
                 .clienteId(pagamentoForm.getClienteId())
