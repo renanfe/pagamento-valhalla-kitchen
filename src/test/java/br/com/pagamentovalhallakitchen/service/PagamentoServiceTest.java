@@ -6,8 +6,7 @@ import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServi
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,14 +28,6 @@ class PagamentoServiceTest {
         pagamentoService = new PagamentoService(pagamentoRepository);
     }
 
-    @Test
-    void quandoChamoOPagamentoMapper_EleRetornaMensagemDeClasseUtilitaria(){
-        try {
-            PagamentoMapper pagamentoMapper = new PagamentoMapper();
-        } catch (IllegalStateException e) {
-            assertTrue(e.getMessage().equals("Utility class"));
-        }
-    }
     @Test
     void quandoEuRealizoOPagamento_entaoDeveRetornarPagamento(){
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());

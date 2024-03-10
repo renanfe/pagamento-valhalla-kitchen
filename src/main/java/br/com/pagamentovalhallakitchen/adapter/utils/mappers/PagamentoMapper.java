@@ -6,7 +6,7 @@ import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 
 public class PagamentoMapper {
 
-    public PagamentoMapper(){
+    PagamentoMapper(){
         throw new IllegalStateException("Utility class");
     }
 
