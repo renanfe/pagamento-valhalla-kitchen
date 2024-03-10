@@ -5,8 +5,7 @@ import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServi
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +26,7 @@ class PagamentoServiceTest {
     void setUp() {
         pagamentoService = new PagamentoService(pagamentoRepository);
     }
+
     @Test
     void quandoEuRealizoOPagamento_entaoDeveRetornarPagamento(){
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
@@ -53,4 +53,5 @@ class PagamentoServiceTest {
         verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));
         verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
     }
+
 }
