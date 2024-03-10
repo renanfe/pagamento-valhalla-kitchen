@@ -1,6 +1,5 @@
 package br.com.pagamentovalhallakitchen.service;
 
-import br.com.pagamentovalhallakitchen.adapter.utils.mappers.PagamentoMapper;
 import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
