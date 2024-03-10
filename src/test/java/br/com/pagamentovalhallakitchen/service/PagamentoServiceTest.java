@@ -1,5 +1,6 @@
 package br.com.pagamentovalhallakitchen.service;
 
+import br.com.pagamentovalhallakitchen.adapter.utils.mappers.PagamentoMapper;
 import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
@@ -27,6 +28,15 @@ class PagamentoServiceTest {
     void setUp() {
         pagamentoService = new PagamentoService(pagamentoRepository);
     }
+
+    @Test
+    void quandoChamoOPagamentoMapper_EleRetornaMensagemDeClasseUtilitaria(){
+        try {
+            PagamentoMapper pagamentoMapper = new PagamentoMapper();
+        } catch (IllegalStateException e) {
+            assertTrue(e.getMessage().equals("Utility class"));
+        }
+    }
     @Test
     void quandoEuRealizoOPagamento_entaoDeveRetornarPagamento(){
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
@@ -53,4 +63,5 @@ class PagamentoServiceTest {
         verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));
         verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
     }
+
 }
