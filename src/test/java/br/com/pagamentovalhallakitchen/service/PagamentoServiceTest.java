@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 class PagamentoServiceTest {
@@ -28,11 +29,31 @@ class PagamentoServiceTest {
     }
 
     @Test
-    void quandoEuRealizoOPagamento_entaoDeveRetornarPagamento(){
+    void quandoEuCrioUmPagamento_entaoDeveRetornarPagamento(){
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
-        Pagamento pagamento = pagamentoService.efetuarPagamento(PagamentoHelper.buildPagamentoForm());
+        Pagamento pagamento = pagamentoService.criarPagamento(PagamentoHelper.buildPagamentoForm());
         assertNotNull(pagamento);
         verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
+    }
+
+    @Test
+    void quandoEuProcessoUmPagamento_entaoDeveRetornarPagamentoComSucesso(){
+        when(pagamentoRepository.buscarPagamento(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamento()));
+        when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
+        Pagamento pagamento = pagamentoService.processarPagamento(PagamentoHelper.buildRespostaPagamentoFormConcluido());
+        assertNotNull(pagamento);
+        verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
+        verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));
+    }
+
+    @Test
+    void quandoEuProcessoUmPagamento_entaoDeveRetornarPagamentoSemSucesso(){
+        when(pagamentoRepository.buscarPagamento(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamento()));
+        when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
+        Pagamento pagamento = pagamentoService.processarPagamento(PagamentoHelper.buildRespostaPagamentoFormCancelado());
+        assertNotNull(pagamento);
+        verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
+        verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));
     }
 
     @Test
@@ -52,6 +73,14 @@ class PagamentoServiceTest {
         assertTrue(optPagamento.isPresent());
         verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));
         verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
+    }
+
+    @Test
+    void quandoEuCanceloOPagamentoDoCliente_entaoDevoCancelarOPagamentoERetornarQuantidade(){
+        doReturn(1).when(pagamentoRepository).removerPagamentoDoCliente(any(UUID.class));
+        Optional<Integer> optPagamento = pagamentoService.removerPagamentoDoCliente(UUID.randomUUID());
+        assertTrue(optPagamento.isPresent());
+        verify(pagamentoRepository, times(1)).removerPagamentoDoCliente(any(UUID.class));
     }
 
 }

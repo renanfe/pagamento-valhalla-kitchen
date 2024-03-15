@@ -2,6 +2,7 @@ package br.com.pagamentovalhallakitchen.utils;
 
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.core.domain.TipoPagamento;
 
@@ -44,6 +45,20 @@ public class PagamentoHelper {
                 .pedidoId(gerarLong())
                 .tipoPagamento(TipoPagamento.CREDITO)
                 .preco(gerarBigDecimal())
+                .build();
+    }
+
+    public static RespostaPagamentoForm buildRespostaPagamentoFormConcluido () {
+        return RespostaPagamentoForm.builder()
+                .id(gerarLong())
+                .status("CONCLUIDO")
+                .build();
+    }
+
+    public static RespostaPagamentoForm buildRespostaPagamentoFormCancelado () {
+        return RespostaPagamentoForm.builder()
+                .id(gerarLong())
+                .status("CANCELADO")
                 .build();
     }
 }

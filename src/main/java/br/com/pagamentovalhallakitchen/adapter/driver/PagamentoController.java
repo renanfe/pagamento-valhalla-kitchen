@@ -1,8 +1,10 @@
 package br.com.pagamentovalhallakitchen.adapter.driver;
 
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,10 +22,19 @@ public class PagamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Pagamento> efetuarPagamento(@RequestBody PagamentoForm pagamentoForm, UriComponentsBuilder uriBuilder) {
-        Pagamento pagamento = pagamentoService.efetuarPagamento(pagamentoForm);
+    public ResponseEntity<Pagamento> criarPagamento(@RequestBody PagamentoForm pagamentoForm, UriComponentsBuilder uriBuilder) {
+        Pagamento pagamento = pagamentoService.criarPagamento(pagamentoForm);
         String novaUri = uriBuilder.path("/{id}").buildAndExpand(pagamento.getId()).toUriString();
         return ResponseEntity.created(UriComponentsBuilder.fromUriString(novaUri).build().toUri()).body(pagamento);
+    }
+    @PostMapping("/webhook")
+    public ResponseEntity<String> respostaPagamento(@RequestBody RespostaPagamentoForm respostaPagamentoForm) {
+        try {
+            pagamentoService.processarPagamento(respostaPagamentoForm);
+            return ResponseEntity.ok("Pagamento processado com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/{id}")
