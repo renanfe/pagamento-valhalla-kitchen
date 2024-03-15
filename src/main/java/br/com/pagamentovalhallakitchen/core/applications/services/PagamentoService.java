@@ -1,6 +1,7 @@
 package br.com.pagamentovalhallakitchen.core.applications.services;
 
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.utils.mappers.PagamentoMapper;
 import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
 import br.com.pagamentovalhallakitchen.core.domain.Status;
@@ -18,15 +19,12 @@ public class PagamentoService {
     public PagamentoService(PagamentoRepository pagamentoRepository) {
         this.pagamentoRepository = pagamentoRepository;
     }
-    public Pagamento efetuarPagamento(PagamentoForm pagamentoForm){
+
+    public Pagamento criarPagamento(PagamentoForm pagamentoForm){
         Pagamento pagamento = PagamentoMapper.pagamentoFormToPagamento(pagamentoForm);
-        confirmarPagamento(pagamento);
+        pagamento.setStatus(Status.PENDENTE);
         pagamento = pagamentoRepository.salvarPagamento(pagamento);
         return pagamento;
-    }
-
-    private void confirmarPagamento(Pagamento pagamento) {
-        pagamento.setStatus(Status.CONCLUIDO);
     }
 
     public Optional<Pagamento> buscarPagamentoPorId(Long id) {
@@ -46,5 +44,27 @@ public class PagamentoService {
 
     public Optional<Integer> removerPagamentoDoCliente(UUID id) {
         return Optional.of(pagamentoRepository.removerPagamentoDoCliente(id));
+    }
+
+    public Pagamento processarPagamento (RespostaPagamentoForm respostaPagamentoForm) {
+        return buscarPagamentoPorId(respostaPagamentoForm.getId())
+                .map(pagamento -> aprovarOuReprovarPagamento(pagamento, respostaPagamentoForm.getStatus()))
+                .map(pagamentoRepository::salvarPagamento)
+                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado"));
+    }
+
+    private Pagamento aprovarOuReprovarPagamento(Pagamento pagamento, String status) {
+        switch (status) {
+            case "CONCLUIDO":
+                pagamento.setStatus(Status.CONCLUIDO);
+                break;
+            case "CANCELADO":
+                pagamento.setStatus(Status.CANCELADO);
+                break;
+            default:
+                pagamento.setStatus(Status.PENDENTE);
+                break;
+        }
+        return pagamento;
     }
 }
