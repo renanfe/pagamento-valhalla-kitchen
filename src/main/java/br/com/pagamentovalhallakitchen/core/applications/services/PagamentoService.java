@@ -8,6 +8,7 @@ import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PagamentoService {
@@ -41,5 +42,9 @@ public class PagamentoService {
     private Pagamento cancelarPagamentoStatus(Pagamento pagamento) {
         pagamento.setStatus(Status.CANCELADO);
         return pagamento;
+    }
+
+    public Optional<Integer> removerPagamentoDoCliente(UUID id) {
+        return Optional.of(pagamentoRepository.removerPagamentoDoCliente(id));
     }
 }
