@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/v1/pagamentos")
 public class PagamentoController {
@@ -30,9 +32,12 @@ public class PagamentoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Pagamento> cancelarPagamento(@PathVariable Long id) {
+    public ResponseEntity<Pagamento> cancelarPagamentoPorId(@PathVariable Long id) {
         return pagamentoService.cancelarPagamento(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-
     }
 
+    @DeleteMapping("/cliente/{id}")
+    public ResponseEntity<Integer> removerPagamentoPorClienteId(@PathVariable UUID id) {
+        return pagamentoService.removerPagamentoDoCliente(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
