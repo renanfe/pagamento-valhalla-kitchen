@@ -1,5 +1,6 @@
 package br.com.pagamentovalhallakitchen.adapter.driver.form;
 
+import br.com.pagamentovalhallakitchen.core.domain.Status;
 import br.com.pagamentovalhallakitchen.core.domain.TipoPagamento;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +16,6 @@ public class PagamentoForm {
     private Long pedidoId;
     private TipoPagamento tipoPagamento;
     private BigDecimal preco;
+    private Status status;
 
 }
