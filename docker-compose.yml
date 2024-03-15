@@ -5,7 +5,7 @@ services:
     image: postgres:latest
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5431:5431"
     user: postgres
     environment:
       POSTGRES_USER: postgres
@@ -22,7 +22,7 @@ services:
     container_name: api-pagamento-valhalla-kitchen
     image: openjdk:latest
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_HOST: database
