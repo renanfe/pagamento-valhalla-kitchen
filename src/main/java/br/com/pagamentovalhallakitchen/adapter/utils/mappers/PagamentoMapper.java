@@ -16,6 +16,7 @@ public class PagamentoMapper {
                 .pedidoId(pagamentoForm.getPedidoId())
                 .tipoPagamento(pagamentoForm.getTipoPagamento())
                 .preco(pagamentoForm.getPreco())
+                .status(pagamentoForm.getStatus())
                 .build();
     }
 
