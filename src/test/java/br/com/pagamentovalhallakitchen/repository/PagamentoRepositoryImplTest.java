@@ -16,11 +16,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -52,7 +55,15 @@ class PagamentoRepositoryImplTest {
         Optional<Pagamento> pagamento = pagamentoRepository.buscarPagamento(PagamentoHelper.gerarLong());
         assertTrue(pagamento.isPresent());
         verify(pagamentoRepositoryJpa, times(1)).findById(any(Long.class));
+    }
 
+    @Test
+    void quandoSolicitarRemoverPagamentoDoCliente_entaoRemoveOPagamento() {
+        UUID clienteId = PagamentoHelper.buildPagamento().getClienteId();
+        when(pagamentoRepositoryJpa.deleteByClienteId(any(UUID.class))).thenReturn(0);
+        int clienteIdRetorno = pagamentoRepository.removerPagamentoDoCliente(clienteId);
+        assertNotNull(clienteIdRetorno);
+        verify(pagamentoRepositoryJpa, times(1)).deleteByClienteId(any(UUID.class));
     }
 
 }
