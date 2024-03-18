@@ -5,7 +5,7 @@ import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface PagamentoRepositoryAdapter {
+public interface PagamentoRepository {
 
     Optional<Pagamento> buscarPagamento(Long id);
     Pagamento salvarPagamento(Pagamento pagamento);
