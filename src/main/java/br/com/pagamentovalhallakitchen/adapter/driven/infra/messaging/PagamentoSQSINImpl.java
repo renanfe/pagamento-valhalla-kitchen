@@ -4,8 +4,6 @@ import br.com.pagamentovalhallakitchen.adapter.driven.infra.ports.PagamentoServi
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSIN;
 import io.awspring.cloud.sqs.annotation.SqsListener;
-import io.awspring.cloud.sqs.operations.SqsTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
