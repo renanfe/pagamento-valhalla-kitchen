@@ -10,3 +10,15 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cloud:
+    aws:
+      credentials:
+        accessKey: ${AWS_ACCESS_KEY:}
+        secretKey: ${AWS_SECRET_KEY:}
+      region:
+        static: ${AWS_REGION}
+      sqs:
+        endpoint: ${AWS_SQS_ENDPOINT}
+queue:
+  retorno-pagamento: ${QUEUE_RETORNO_PAGAMENTO}
+  pedido-gerado: ${QUEUE_PEDIDO_GERADO}
