@@ -1,6 +1,7 @@
 package br.com.pagamentovalhallakitchen.service;
 
-import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepositoryAdapter;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUTAdapter;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
@@ -21,11 +22,14 @@ import java.util.UUID;
 class PagamentoServiceTest {
     private PagamentoService pagamentoService;
     @Mock
-    private PagamentoRepository pagamentoRepository;
+    private PagamentoRepositoryAdapter pagamentoRepository;
+
+    @Mock
+    private PagamentoSQSOUTAdapter pagamentoSQSOUTAdapter;
 
     @BeforeEach
     void setUp() {
-        pagamentoService = new PagamentoService(pagamentoRepository);
+        pagamentoService = new PagamentoService(pagamentoRepository, pagamentoSQSOUTAdapter);
     }
 
     @Test
