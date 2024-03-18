@@ -26,7 +26,7 @@ public class PagamentoSQSINImplTest {
     @Test
     void quandoEuReceboUmaConfirmaçãoDePagamento_entaoDevoProcessarOPagamentoComSucesso(){
         doReturn(PagamentoHelper.buildPagamento()).when(pagamentoService).criarPagamento(any());
-        this.pagamentoSQSIN.receive(PagamentoHelper.buildMessage());
+        this.pagamentoSQSIN.receberMensagem(PagamentoHelper.buildMessage());
         verify(this.pagamentoService, times(1)).criarPagamento(any());
     }
 }
