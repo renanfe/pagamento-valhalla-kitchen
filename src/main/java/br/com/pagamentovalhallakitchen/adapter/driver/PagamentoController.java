@@ -2,7 +2,7 @@ package br.com.pagamentovalhallakitchen.adapter.driver;
 
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
-import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
+import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServiceImpl;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,9 @@ import java.util.UUID;
 @RequestMapping("/v1/pagamentos")
 public class PagamentoController {
 
-    private final PagamentoService pagamentoService;
+    private final PagamentoServiceImpl pagamentoService;
 
-    public PagamentoController(PagamentoService pagamentoService) {
+    public PagamentoController(PagamentoServiceImpl pagamentoService) {
         this.pagamentoService = pagamentoService;
     }
 
@@ -47,7 +47,7 @@ public class PagamentoController {
         return pagamentoService.cancelarPagamento(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/cliente/{id}")
+    @DeleteMapping("/clientes/{id}")
     public ResponseEntity<Integer> removerPagamentoPorClienteId(@PathVariable UUID id) {
         return pagamentoService.removerPagamentoDoCliente(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

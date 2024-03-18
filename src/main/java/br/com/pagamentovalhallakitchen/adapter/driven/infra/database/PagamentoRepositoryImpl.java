@@ -1,4 +1,4 @@
-package br.com.pagamentovalhallakitchen.adapter.driven.infra;
+package br.com.pagamentovalhallakitchen.adapter.driven.infra.database;
 
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.jpa.PagamentoRepositoryJpa;
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
@@ -16,7 +16,7 @@ public class PagamentoRepositoryImpl implements PagamentoRepository {
 
     private final PagamentoRepositoryJpa pagamentoRepositoryJpa;
 
-    public PagamentoRepositoryImpl(PagamentoRepositoryJpa pagamentoRepositoryJpa) {
+    public PagamentoRepositoryImpl (PagamentoRepositoryJpa pagamentoRepositoryJpa) {
         this.pagamentoRepositoryJpa = pagamentoRepositoryJpa;
     }
 
