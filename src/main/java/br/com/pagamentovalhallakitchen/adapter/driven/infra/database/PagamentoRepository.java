@@ -1,9 +1,9 @@
-package br.com.pagamentovalhallakitchen.adapter.driven.infra;
+package br.com.pagamentovalhallakitchen.adapter.driven.infra.database;
 
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.jpa.PagamentoRepositoryJpa;
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
 import br.com.pagamentovalhallakitchen.adapter.utils.mappers.PagamentoMapper;
-import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepositoryAdapter;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class PagamentoRepositoryImpl implements PagamentoRepository {
+public class PagamentoRepository implements PagamentoRepositoryAdapter {
 
     private final PagamentoRepositoryJpa pagamentoRepositoryJpa;
 
-    public PagamentoRepositoryImpl(PagamentoRepositoryJpa pagamentoRepositoryJpa) {
+    public PagamentoRepository (PagamentoRepositoryJpa pagamentoRepositoryJpa) {
         this.pagamentoRepositoryJpa = pagamentoRepositoryJpa;
     }
 
