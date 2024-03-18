@@ -1,6 +1,6 @@
 package br.com.pagamentovalhallakitchen.repository;
 
-import br.com.pagamentovalhallakitchen.adapter.driven.infra.database.PagamentoRepository;
+import br.com.pagamentovalhallakitchen.adapter.driven.infra.database.PagamentoRepositoryImpl;
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.jpa.PagamentoRepositoryJpa;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
@@ -23,13 +23,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class PagamentoRepositoryImplTest {
 
-    private PagamentoRepository pagamentoRepository;
+    private PagamentoRepositoryImpl pagamentoRepository;
     @Mock
     private PagamentoRepositoryJpa pagamentoRepositoryJpa;
 
     @BeforeEach
     void setUp() {
-        pagamentoRepository = new PagamentoRepository(pagamentoRepositoryJpa);
+        pagamentoRepository = new PagamentoRepositoryImpl(pagamentoRepositoryJpa);
     }
 
     @Test
