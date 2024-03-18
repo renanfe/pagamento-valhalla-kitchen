@@ -6,7 +6,7 @@ import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
-import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
+import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PagamentoControllerTest{
 
     @MockBean
-    private PagamentoService pagamentoService;
+    private PagamentoServiceImpl pagamentoService;
     @Autowired
     private MockMvc mvc;
 
@@ -97,6 +98,19 @@ class PagamentoControllerTest{
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         verify(pagamentoService, times(1)).cancelarPagamento(any(Long.class));
+
+    }
+
+    @Test
+    void quandoSolicitoRemocaoPagamenteDeUmCliente_entaoRetornaQuantidadeRemovida() throws Exception {
+        UUID id = UUID.randomUUID();
+        Optional<Integer> removidos = Optional.of(Integer.sum(2,2));
+        when(pagamentoService.removerPagamentoDoCliente(any(UUID.class))).thenReturn(removidos);
+        mvc.perform(
+                        delete("/v1/pagamentos/clientes/{id}", id)
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        verify(pagamentoService, times(1)).removerPagamentoDoCliente(any(UUID.class));
 
     }
 
