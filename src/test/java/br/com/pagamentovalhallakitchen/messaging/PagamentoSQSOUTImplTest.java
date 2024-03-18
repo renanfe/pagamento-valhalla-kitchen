@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PagamentoSQSOUTImplTest {
+class PagamentoSQSOUTImplTest {
 
     private PagamentoSQSOUT pagamentoSQSOUT;
 
