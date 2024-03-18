@@ -1,11 +1,11 @@
 package br.com.pagamentovalhallakitchen.core.applications.services;
 
-import br.com.pagamentovalhallakitchen.adapter.driven.infra.ports.PagamentoServiceAdapter;
+import br.com.pagamentovalhallakitchen.adapter.driven.infra.ports.PagamentoService;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.utils.mappers.PagamentoMapper;
-import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepositoryAdapter;
-import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUTAdapter;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUT;
 import br.com.pagamentovalhallakitchen.core.domain.Status;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import org.springframework.stereotype.Service;
@@ -15,13 +15,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class PagamentoService implements PagamentoServiceAdapter {
+public class PagamentoServiceImpl implements PagamentoService {
 
-    private final PagamentoRepositoryAdapter pagamentoRepository;
+    private final PagamentoRepository pagamentoRepository;
 
-    private final PagamentoSQSOUTAdapter pagamentoSQSOUT;
+    private final PagamentoSQSOUT pagamentoSQSOUT;
 
-    public PagamentoService(PagamentoRepositoryAdapter pagamentoRepository, PagamentoSQSOUTAdapter pagamentoSQSOUT) {
+    public PagamentoServiceImpl (PagamentoRepository pagamentoRepository, PagamentoSQSOUT pagamentoSQSOUT) {
         this.pagamentoRepository = pagamentoRepository;
         this.pagamentoSQSOUT = pagamentoSQSOUT;
     }
