@@ -1,8 +1,8 @@
 package br.com.pagamentovalhallakitchen.service;
 
-import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepositoryAdapter;
-import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUTAdapter;
-import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUT;
+import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServiceImpl;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 
@@ -19,17 +19,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-class PagamentoServiceTest {
-    private PagamentoService pagamentoService;
+class PagamentoServiceImplTest {
+    private PagamentoServiceImpl pagamentoService;
     @Mock
-    private PagamentoRepositoryAdapter pagamentoRepository;
+    private PagamentoRepository pagamentoRepository;
 
     @Mock
-    private PagamentoSQSOUTAdapter pagamentoSQSOUTAdapter;
+    private PagamentoSQSOUT pagamentoSQSOUTAdapter;
 
     @BeforeEach
     void setUp() {
-        pagamentoService = new PagamentoService(pagamentoRepository, pagamentoSQSOUTAdapter);
+        pagamentoService = new PagamentoServiceImpl(pagamentoRepository, pagamentoSQSOUTAdapter);
     }
 
     @Test
