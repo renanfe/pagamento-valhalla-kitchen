@@ -1,23 +1,29 @@
 package br.com.pagamentovalhallakitchen.core.applications.services;
 
+import br.com.pagamentovalhallakitchen.adapter.driven.infra.ports.PagamentoServiceAdapter;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.utils.mappers.PagamentoMapper;
-import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepositoryAdapter;
+import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUTAdapter;
 import br.com.pagamentovalhallakitchen.core.domain.Status;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class PagamentoService {
+public class PagamentoService implements PagamentoServiceAdapter {
 
-    private final PagamentoRepository pagamentoRepository;
+    private final PagamentoRepositoryAdapter pagamentoRepository;
 
-    public PagamentoService(PagamentoRepository pagamentoRepository) {
+    private final PagamentoSQSOUTAdapter pagamentoSQSOUT;
+
+    public PagamentoService(PagamentoRepositoryAdapter pagamentoRepository, PagamentoSQSOUTAdapter pagamentoSQSOUT) {
         this.pagamentoRepository = pagamentoRepository;
+        this.pagamentoSQSOUT = pagamentoSQSOUT;
     }
 
     public Pagamento criarPagamento(PagamentoForm pagamentoForm){
@@ -46,10 +52,12 @@ public class PagamentoService {
         return Optional.of(pagamentoRepository.removerPagamentoDoCliente(id));
     }
 
+    @Transactional
     public Pagamento processarPagamento (RespostaPagamentoForm respostaPagamentoForm) {
         return buscarPagamentoPorId(respostaPagamentoForm.getId())
                 .map(pagamento -> aprovarOuReprovarPagamento(pagamento, respostaPagamentoForm.getStatus()))
                 .map(pagamentoRepository::salvarPagamento)
+                .map(this::enviarMensagem)
                 .orElseThrow(() -> new RuntimeException("Pagamento não encontrado"));
     }
 
@@ -65,6 +73,11 @@ public class PagamentoService {
                 pagamento.setStatus(Status.PENDENTE);
                 break;
         }
+        return pagamento;
+    }
+
+    private Pagamento enviarMensagem(Pagamento pagamento) {
+        this.pagamentoSQSOUT.publicarRetornoPagamento(pagamento);
         return pagamento;
     }
 }
