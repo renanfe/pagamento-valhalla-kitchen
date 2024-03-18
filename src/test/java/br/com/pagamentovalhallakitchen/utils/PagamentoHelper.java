@@ -5,6 +5,9 @@ import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.core.domain.TipoPagamento;
+import io.awspring.cloud.sqs.operations.SendResult;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.GenericMessage;
 
 import java.math.BigDecimal;
 import java.util.Random;
@@ -60,5 +63,13 @@ public class PagamentoHelper {
                 .id(gerarLong())
                 .status("CANCELADO")
                 .build();
+    }
+
+    public static SendResult buildSendResult() {
+        return new SendResult(UUID.randomUUID(), "teste.com.br", buildMessage(), null);
+    }
+
+    public static Message<PagamentoForm> buildMessage() {
+        return new GenericMessage<PagamentoForm>(buildPagamentoForm());
     }
 }
