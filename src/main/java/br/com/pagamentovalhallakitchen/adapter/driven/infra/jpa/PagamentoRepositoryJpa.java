@@ -6,10 +6,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PagamentoRepositoryJpa extends JpaRepository<PagamentoEntity, Long> {
     @Modifying
     @Query("delete from PagamentoEntity p where p.clienteId=:clienteId")
     int deleteByClienteId(@Param("clienteId") UUID clienteId);
+
+    Optional<PagamentoEntity> findByClienteId(UUID clienteId);
+
 }

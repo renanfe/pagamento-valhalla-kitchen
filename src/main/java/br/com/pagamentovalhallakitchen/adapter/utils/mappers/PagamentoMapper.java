@@ -1,7 +1,9 @@
 package br.com.pagamentovalhallakitchen.adapter.utils.mappers;
 
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
-import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoPagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoWebhookForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 
 public class PagamentoMapper {
@@ -10,13 +12,12 @@ public class PagamentoMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Pagamento pagamentoFormToPagamento(PagamentoForm pagamentoForm){
+    public static Pagamento pedidoGeradoFormToPagamento (PedidoGeradoForm pedidoGeradoForm){
         return Pagamento.builder()
-                .clienteId(pagamentoForm.getClienteId())
-                .pedidoId(pagamentoForm.getPedidoId())
-                .tipoPagamento(pagamentoForm.getTipoPagamento())
-                .preco(pagamentoForm.getPreco())
-                .status(pagamentoForm.getStatus())
+                .clienteId(pedidoGeradoForm.getClienteId())
+                .pedidoId(pedidoGeradoForm.getPedidoId())
+                .tipoPagamento(pedidoGeradoForm.getTipoPagamento())
+                .valor(pedidoGeradoForm.getValor())
                 .build();
     }
 
@@ -26,9 +27,10 @@ public class PagamentoMapper {
                 .clienteId(pagamento.getClienteId())
                 .pedidoId(pagamento.getPedidoId())
                 .tipoPagamento(pagamento.getTipoPagamento())
-                .preco(pagamento.getPreco())
+                .valor(pagamento.getValor())
                 .dataTransacao(pagamento.getDataTransacao())
                 .status(pagamento.getStatus())
+                .motivo(pagamento.getMotivo())
                 .build();
     }
 
@@ -38,9 +40,17 @@ public class PagamentoMapper {
                 .clienteId(pagamentoEntity.getClienteId())
                 .pedidoId(pagamentoEntity.getPedidoId())
                 .tipoPagamento(pagamentoEntity.getTipoPagamento())
-                .preco(pagamentoEntity.getPreco())
+                .valor(pagamentoEntity.getValor())
                 .status(pagamentoEntity.getStatus())
+                .motivo(pagamentoEntity.getMotivo())
                 .build();
     }
 
+    public static RetornoPagamentoForm pagamentoToRetornoPagamentoForm (Pagamento pagamento) {
+        return RetornoPagamentoForm.builder()
+                .pedidoId(pagamento.getPedidoId())
+                .statusRetorno(pagamento.getStatus())
+                .motivo(pagamento.getMotivo())
+                .build();
+    }
 }

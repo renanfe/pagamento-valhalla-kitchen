@@ -1,7 +1,7 @@
 package br.com.pagamentovalhallakitchen.integration;
 
 import br.com.pagamentovalhallakitchen.SpringTest;
-import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 import io.cucumber.java.pt.Então;
@@ -25,7 +25,7 @@ public class PagamentoIntegrationTest extends SpringTest {
     private Pagamento pagamento;
 
     public Pagamento efetuarPagamento(){
-        PagamentoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
+        PedidoGeradoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
         response = given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(pagamentoForm)
@@ -34,7 +34,7 @@ public class PagamentoIntegrationTest extends SpringTest {
     }
     @Quando("o cliente efetua o pagamento")
     public void efetuarUmNovoPagamento(){
-        PagamentoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
+        PedidoGeradoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
         response = given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(pagamentoForm)

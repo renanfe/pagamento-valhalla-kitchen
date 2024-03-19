@@ -1,13 +1,15 @@
 package br.com.pagamentovalhallakitchen.adapter.driver.form;
 
+import br.com.pagamentovalhallakitchen.core.domain.Status;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class RespostaPagamentoForm {
+public class RetornoWebhookForm {
 
     private Long id;
-    private String status;
+    private Status status;
+    private String motivo;
 
 }

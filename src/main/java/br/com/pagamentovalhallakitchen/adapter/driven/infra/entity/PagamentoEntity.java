@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
+
 @Entity()
 @Table(name = "pagamento")
 @Getter
@@ -23,18 +24,18 @@ public class PagamentoEntity implements Serializable {
         @Column(name = "id")
         private Long id;
 
-        @Column(name = "clienteId")
-        private UUID clienteId;
-
         @Column(name = "pedidoId")
         private Long pedidoId;
+
+        @Column(name = "clienteId")
+        private UUID clienteId;
 
         @Column(name = "tipoPagamento")
         @Enumerated(EnumType.STRING)
         private TipoPagamento tipoPagamento;
 
-        @Column(name = "preco")
-        private BigDecimal preco;
+        @Column(name = "valor")
+        private BigDecimal valor;
 
         @Column(name = "dataTransacao")
         private Date dataTransacao;
@@ -43,4 +44,7 @@ public class PagamentoEntity implements Serializable {
         @Enumerated(EnumType.STRING)
         @Builder.Default
         private Status status = Status.PENDENTE;
+
+        @Column(name = "motivo")
+        private String motivo;
 }

@@ -10,12 +10,11 @@ import java.util.UUID;
 
 @Getter
 @Builder
-public class PagamentoForm {
+public class PedidoGeradoForm {
 
-    private UUID clienteId;
     private Long pedidoId;
+    private UUID clienteId;
     private TipoPagamento tipoPagamento;
-    private BigDecimal preco;
-    private Status status;
+    private BigDecimal valor;
 
 }

@@ -44,7 +44,7 @@ class PagamentoServiceImplTest {
     void quandoEuProcessoUmPagamento_entaoDeveRetornarPagamentoComSucesso(){
         when(pagamentoRepository.buscarPagamento(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamento()));
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
-        Pagamento pagamento = pagamentoService.processarPagamento(PagamentoHelper.buildRespostaPagamentoFormConcluido());
+        Pagamento pagamento = pagamentoService.processarPagamento(PagamentoHelper.buildRetornoWebHookSucesso());
         assertNotNull(pagamento);
         verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
         verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));
@@ -54,7 +54,7 @@ class PagamentoServiceImplTest {
     void quandoEuProcessoUmPagamento_entaoDeveRetornarPagamentoSemSucesso(){
         when(pagamentoRepository.buscarPagamento(any(Long.class))).thenReturn(Optional.of(PagamentoHelper.buildPagamento()));
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
-        Pagamento pagamento = pagamentoService.processarPagamento(PagamentoHelper.buildRespostaPagamentoFormCancelado());
+        Pagamento pagamento = pagamentoService.processarPagamento(PagamentoHelper.buildRetornoWebHookCancelado());
         assertNotNull(pagamento);
         verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
         verify(pagamentoRepository, times(1)).buscarPagamento(any(Long.class));

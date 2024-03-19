@@ -26,7 +26,7 @@ class PagamentoSQSOUTImplTest {
     @Test
     void quandoEuReceboUmPagamento_entaoDevoEncaminharMensagemComSucesso(){
         doReturn(PagamentoHelper.buildSendResult()).when(sqsTemplate).send(any());
-        this.pagamentoSQSOUT.publicarRetornoPagamento(PagamentoHelper.buildPagamento());
+        this.pagamentoSQSOUT.publicarRetornoPagamento(PagamentoHelper.buildRetornoPagamentoForm());
         verify(this.sqsTemplate, times(1)).send(any());
     }
 }
