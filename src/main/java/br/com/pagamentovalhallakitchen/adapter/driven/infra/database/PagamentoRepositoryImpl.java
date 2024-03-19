@@ -37,5 +37,4 @@ public class PagamentoRepositoryImpl implements PagamentoRepository {
     public Integer removerPagamentoDoCliente (UUID id) {
         return pagamentoRepositoryJpa.deleteByClienteId(id);
     }
-
 }

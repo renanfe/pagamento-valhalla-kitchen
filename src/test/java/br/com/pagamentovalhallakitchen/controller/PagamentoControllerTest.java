@@ -1,10 +1,11 @@
 package br.com.pagamentovalhallakitchen.controller;
 
 import br.com.pagamentovalhallakitchen.adapter.driver.PagamentoController;
-import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoPagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoWebhookForm;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -35,44 +36,44 @@ class PagamentoControllerTest{
 
     @Test
     void quandoEuCadastroUmPagamento_entaoOPagamentoDeveSerRetornado() throws Exception {
-        PagamentoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
+        PedidoGeradoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
         Pagamento pagamento = PagamentoHelper.buildPagamento();
-        when(pagamentoService.criarPagamento(any(PagamentoForm.class))).thenReturn(pagamento);
+        when(pagamentoService.criarPagamento(any(PedidoGeradoForm.class))).thenReturn(pagamento);
         mvc.perform(
                         post("/v1/pagamentos")
                                 .content(new ObjectMapper().writeValueAsString(pagamentoForm))
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
-        verify(pagamentoService, times(1)).criarPagamento(any(PagamentoForm.class));
+        verify(pagamentoService, times(1)).criarPagamento(any(PedidoGeradoForm.class));
     }
 
     @Test
     void quandoEuProcessoUmPagamento_entaoOPagamentoDeveSerConcluidoComSucesso() throws Exception {
-        RespostaPagamentoForm respostaPagamentoForm = PagamentoHelper.buildRespostaPagamentoFormConcluido();
+        RetornoPagamentoForm respostaPagamentoForm = PagamentoHelper.buildRespostaPagamentoFormConcluido();
         Pagamento pagamento = PagamentoHelper.buildPagamento();
-        when(pagamentoService.processarPagamento(any(RespostaPagamentoForm.class))).thenReturn(pagamento);
+        when(pagamentoService.processarPagamento(any(RetornoWebhookForm.class))).thenReturn(pagamento);
         mvc.perform(
                 post("/v1/pagamentos/webhook")
                     .content(new ObjectMapper().writeValueAsString(respostaPagamentoForm))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
-        verify(pagamentoService, times(1)).processarPagamento(any(RespostaPagamentoForm.class));
+        verify(pagamentoService, times(1)).processarPagamento(any(RetornoWebhookForm.class));
     }
 
     @Test
     void quandoEuProcessoUmPagamento_entaoOPagamentoDeveSerCancelado() throws Exception {
-        RespostaPagamentoForm respostaPagamentoForm = PagamentoHelper.buildRespostaPagamentoFormCancelado();
+        RetornoPagamentoForm respostaPagamentoForm = PagamentoHelper.buildRespostaPagamentoFormCancelado();
         Pagamento pagamento = PagamentoHelper.buildPagamento();
-        when(pagamentoService.processarPagamento(any(RespostaPagamentoForm.class))).thenReturn(pagamento);
+        when(pagamentoService.processarPagamento(any(RetornoWebhookForm.class))).thenReturn(pagamento);
         mvc.perform(
                         post("/v1/pagamentos/webhook")
                                 .content(new ObjectMapper().writeValueAsString(respostaPagamentoForm))
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        verify(pagamentoService, times(1)).processarPagamento(any(RespostaPagamentoForm.class));
+        verify(pagamentoService, times(1)).processarPagamento(any(RetornoWebhookForm.class));
     }
 
     @Test
