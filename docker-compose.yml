@@ -43,9 +43,9 @@ services:
       QUEUE_PEDIDO_GERADO: ${QUEUE_PEDIDO_GERADO}
       QUEUE_RETORNO_PAGAMENTO: ${QUEUE_RETORNO_PAGAMENTO}
     volumes:
-      - ./docker/pagamento-valhalla-kitchen-1.0.jar:/app/pagamento-valhalla-kitchen-1.0.jar
+      - ./pagamento-valhalla-kitchen-1.0.jar:/usr/src/myapp/app.jar
     command:
-      ["java", "-jar", "/app/pagamento-valhalla-kitchen-1.0.jar"]
+      ["java" , "-Dspring.profiles.active='$SPRING_PROFILE'" , "-jar" ,"/usr/src/myapp/app.jar"]
     depends_on:
       database:
         condition: service_healthy
