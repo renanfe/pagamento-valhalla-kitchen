@@ -191,7 +191,7 @@
                 </executions>
                 <configuration>
                     <outputDirectory>
-                        ${project.basedir}/docker
+                        ${project.basedir}
                     </outputDirectory>
                     <excludes>
                         <exclude>
