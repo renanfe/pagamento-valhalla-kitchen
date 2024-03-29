@@ -47,7 +47,7 @@ public class PagamentoController {
         return pagamentoService.cancelarPagamento(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/cliente/{id}")
+    @DeleteMapping("/clientes/{id}")
     public ResponseEntity<Integer> removerPagamentoPorClienteId(@PathVariable UUID id) {
         return pagamentoService.removerPagamentoDoCliente(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

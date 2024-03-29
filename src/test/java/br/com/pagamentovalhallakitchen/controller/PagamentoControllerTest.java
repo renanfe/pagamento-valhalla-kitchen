@@ -2,19 +2,20 @@ package br.com.pagamentovalhallakitchen.controller;
 
 import br.com.pagamentovalhallakitchen.adapter.driver.PagamentoController;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
+import br.com.pagamentovalhallakitchen.config.SecurityConfig;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -23,12 +24,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PagamentoController.class)
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(controllers = PagamentoController.class)
+@ContextConfiguration(classes = {SecurityConfig.class, PagamentoController.class})
 class PagamentoControllerTest{
 
     @MockBean
     private PagamentoService pagamentoService;
+
     @Autowired
     private MockMvc mvc;
 
