@@ -2,11 +2,26 @@ server:
   port: 8080
   servlet:
     context-path: "/api"
+spring:
+  cloud:
+    aws:
+      credentials:
+        accessKey: ${AWS_ACCESS_KEY}
+        secretKey: ${AWS_SECRET_KEY}
+      region:
+        static: ${AWS_REGION}
+      sqs:
+        endpoint: ${AWS_SQS_ENDPOINT}
+  queue:
+    retorno-pagamento: ${QUEUE_RETORNO_PAGAMENTO}
+    pedido-gerado: ${QUEUE_PEDIDO_GERADO}
 
 ---
 
 spring:
-  profile: production
+  config:
+    activate:
+      on-profile: production
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USERNAME}
@@ -18,7 +33,9 @@ spring:
 ---
 
 spring:
-  profile: dev
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: jdbc:h2:mem:mydb
     username: ${DB_USERNAME}

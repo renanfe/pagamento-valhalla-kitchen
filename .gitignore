@@ -34,4 +34,5 @@ build/
 
 *.jar
 .env
+.env.prod
 .env.dev
