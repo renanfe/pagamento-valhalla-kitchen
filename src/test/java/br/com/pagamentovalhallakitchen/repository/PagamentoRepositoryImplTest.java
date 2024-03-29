@@ -1,6 +1,6 @@
 package br.com.pagamentovalhallakitchen.repository;
 
-import br.com.pagamentovalhallakitchen.adapter.driven.infra.PagamentoRepositoryImpl;
+import br.com.pagamentovalhallakitchen.adapter.driven.infra.database.PagamentoRepositoryImpl;
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.entity.PagamentoEntity;
 import br.com.pagamentovalhallakitchen.adapter.driven.infra.jpa.PagamentoRepositoryJpa;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;

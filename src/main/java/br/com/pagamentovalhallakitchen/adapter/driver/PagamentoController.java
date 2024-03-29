@@ -1,8 +1,9 @@
 package br.com.pagamentovalhallakitchen.adapter.driver;
 
-import br.com.pagamentovalhallakitchen.adapter.driver.form.PagamentoForm;
-import br.com.pagamentovalhallakitchen.adapter.driver.form.RespostaPagamentoForm;
-import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoService;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoPagamentoForm;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoWebhookForm;
+import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServiceImpl;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 
 import org.springframework.http.ResponseEntity;
@@ -15,22 +16,22 @@ import java.util.UUID;
 @RequestMapping("/v1/pagamentos")
 public class PagamentoController {
 
-    private final PagamentoService pagamentoService;
+    private final PagamentoServiceImpl pagamentoService;
 
-    public PagamentoController(PagamentoService pagamentoService) {
+    public PagamentoController(PagamentoServiceImpl pagamentoService) {
         this.pagamentoService = pagamentoService;
     }
 
     @PostMapping
-    public ResponseEntity<Pagamento> criarPagamento(@RequestBody PagamentoForm pagamentoForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Pagamento> criarPagamento(@RequestBody PedidoGeradoForm pagamentoForm, UriComponentsBuilder uriBuilder) {
         Pagamento pagamento = pagamentoService.criarPagamento(pagamentoForm);
         String novaUri = uriBuilder.path("/{id}").buildAndExpand(pagamento.getId()).toUriString();
         return ResponseEntity.created(UriComponentsBuilder.fromUriString(novaUri).build().toUri()).body(pagamento);
     }
     @PostMapping("/webhook")
-    public ResponseEntity<String> respostaPagamento(@RequestBody RespostaPagamentoForm respostaPagamentoForm) {
+    public ResponseEntity<String> respostaPagamento(@RequestBody RetornoWebhookForm retornoWebhookForm) {
         try {
-            pagamentoService.processarPagamento(respostaPagamentoForm);
+            pagamentoService.processarPagamento(retornoWebhookForm);
             return ResponseEntity.ok("Pagamento processado com sucesso");
         } catch (Exception e) {
             return ResponseEntity.noContent().build();

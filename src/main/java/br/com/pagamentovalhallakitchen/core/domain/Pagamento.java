@@ -16,7 +16,7 @@ public class Pagamento {
     private UUID clienteId;
     private Long pedidoId;
     private TipoPagamento tipoPagamento;
-    private BigDecimal preco;
+    private BigDecimal valor;
 
     @Builder.Default
     private Date dataTransacao = new Date();
@@ -24,5 +24,8 @@ public class Pagamento {
     @Builder.Default
     @Setter
     private Status status = Status.PENDENTE;
+
+    @Setter
+    private String motivo;
 
 }

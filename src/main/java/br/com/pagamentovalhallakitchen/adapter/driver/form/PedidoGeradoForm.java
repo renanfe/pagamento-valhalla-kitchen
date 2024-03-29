@@ -1,6 +1,5 @@
 package br.com.pagamentovalhallakitchen.adapter.driver.form;
 
-import br.com.pagamentovalhallakitchen.core.domain.Status;
 import br.com.pagamentovalhallakitchen.core.domain.TipoPagamento;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,12 +9,11 @@ import java.util.UUID;
 
 @Getter
 @Builder
-public class PagamentoForm {
+public class PedidoGeradoForm {
 
-    private UUID clienteId;
     private Long pedidoId;
+    private UUID clienteId;
     private TipoPagamento tipoPagamento;
-    private BigDecimal preco;
-    private Status status;
+    private BigDecimal valor;
 
 }
