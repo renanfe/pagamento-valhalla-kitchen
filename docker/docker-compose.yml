@@ -20,7 +20,7 @@ services:
     container_name: api-pagamento-valhalla-kitchen
     image: openjdk:latest
     ports:
-      - "${APP_PORT}:8080"
+      - "8080:8080"
     env_file:
       - .env
     volumes:
