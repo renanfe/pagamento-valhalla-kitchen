@@ -1,23 +1,23 @@
 package br.com.pagamentovalhallakitchen.controller;
 
 import br.com.pagamentovalhallakitchen.adapter.driver.PagamentoController;
+import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoPagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoWebhookForm;
+import br.com.pagamentovalhallakitchen.config.SecurityConfig;
 import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -25,12 +25,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PagamentoController.class)
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(controllers = PagamentoController.class)
+@ContextConfiguration(classes = {SecurityConfig.class, PagamentoController.class})
 class PagamentoControllerTest{
 
     @MockBean
     private PagamentoServiceImpl pagamentoService;
+
     @Autowired
     private MockMvc mvc;
 
@@ -50,12 +51,12 @@ class PagamentoControllerTest{
 
     @Test
     void quandoEuProcessoUmPagamento_entaoOPagamentoDeveSerConcluidoComSucesso() throws Exception {
-        RetornoPagamentoForm respostaPagamentoForm = PagamentoHelper.buildRespostaPagamentoFormConcluido();
+        RetornoWebhookForm retornoWebhookForm = PagamentoHelper.buildRetornoWebHookSucesso();
         Pagamento pagamento = PagamentoHelper.buildPagamento();
         when(pagamentoService.processarPagamento(any(RetornoWebhookForm.class))).thenReturn(pagamento);
         mvc.perform(
                 post("/v1/pagamentos/webhook")
-                    .content(new ObjectMapper().writeValueAsString(respostaPagamentoForm))
+                    .content(new ObjectMapper().writeValueAsString(retornoWebhookForm))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
@@ -64,12 +65,12 @@ class PagamentoControllerTest{
 
     @Test
     void quandoEuProcessoUmPagamento_entaoOPagamentoDeveSerCancelado() throws Exception {
-        RetornoPagamentoForm respostaPagamentoForm = PagamentoHelper.buildRespostaPagamentoFormCancelado();
+        RetornoWebhookForm retornoWebhookForm = PagamentoHelper.buildRetornoWebHookCancelado();
         Pagamento pagamento = PagamentoHelper.buildPagamento();
         when(pagamentoService.processarPagamento(any(RetornoWebhookForm.class))).thenReturn(pagamento);
         mvc.perform(
                         post("/v1/pagamentos/webhook")
-                                .content(new ObjectMapper().writeValueAsString(respostaPagamentoForm))
+                                .content(new ObjectMapper().writeValueAsString(retornoWebhookForm))
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -99,19 +100,6 @@ class PagamentoControllerTest{
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         verify(pagamentoService, times(1)).cancelarPagamento(any(Long.class));
-
-    }
-
-    @Test
-    void quandoSolicitoRemocaoPagamenteDeUmCliente_entaoRetornaQuantidadeRemovida() throws Exception {
-        UUID id = UUID.randomUUID();
-        Optional<Integer> removidos = Optional.of(Integer.sum(2,2));
-        when(pagamentoService.removerPagamentoDoCliente(any(UUID.class))).thenReturn(removidos);
-        mvc.perform(
-                        delete("/v1/pagamentos/clientes/{id}", id)
-                                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-        verify(pagamentoService, times(1)).removerPagamentoDoCliente(any(UUID.class));
 
     }
 

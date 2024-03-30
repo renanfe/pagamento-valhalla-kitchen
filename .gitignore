@@ -32,4 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-docker/pagamento-valhalla-kitchen-1.0.jar
+*.jar
+.env
+.env.prod
+.env.dev

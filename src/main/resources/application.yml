@@ -1,15 +1,8 @@
 server:
-  port: ${PORT:8081}
+  port: 8080
   servlet:
     context-path: "/api"
 spring:
-  datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
   cloud:
     aws:
       credentials:
@@ -19,6 +12,38 @@ spring:
         static: ${AWS_REGION}
       sqs:
         endpoint: ${AWS_SQS_ENDPOINT}
-queue:
-  retorno-pagamento: ${QUEUE_RETORNO_PAGAMENTO}
-  pedido-gerado: ${QUEUE_PEDIDO_GERADO}
+  queue:
+    retorno-pagamento: ${QUEUE_RETORNO_PAGAMENTO}
+    pedido-gerado: ${QUEUE_PEDIDO_GERADO}
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: org.h2.Driver
+    h2:
+      console.enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true

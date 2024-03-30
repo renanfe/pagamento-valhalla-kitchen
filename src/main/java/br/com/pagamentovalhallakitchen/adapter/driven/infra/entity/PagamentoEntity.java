@@ -24,20 +24,20 @@ public class PagamentoEntity implements Serializable {
         @Column(name = "id")
         private Long id;
 
-        @Column(name = "pedidoId")
+        @Column(name = "pedido_id")
         private Long pedidoId;
 
-        @Column(name = "clienteId")
+        @Column(name = "cliente_id")
         private UUID clienteId;
 
-        @Column(name = "tipoPagamento")
+        @Column(name = "tipo_pagamento")
         @Enumerated(EnumType.STRING)
         private TipoPagamento tipoPagamento;
 
         @Column(name = "valor")
         private BigDecimal valor;
 
-        @Column(name = "dataTransacao")
+        @Column(name = "data_transacao")
         private Date dataTransacao;
 
         @Column(name = "status")
