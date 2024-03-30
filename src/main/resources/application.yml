@@ -10,11 +10,9 @@ spring:
         secretKey: ${AWS_SECRET_KEY}
       region:
         static: ${AWS_REGION}
-      sqs:
-        endpoint: ${AWS_SQS_ENDPOINT}
   queue:
-    retorno-pagamento: ${QUEUE_RETORNO_PAGAMENTO}
-    pedido-gerado: ${QUEUE_PEDIDO_GERADO}
+    retorno-pagamento: queue-retorno-pagamento
+    pedido-gerado: queue-pedido-gerado
 
 ---
 
@@ -23,9 +21,9 @@ spring:
     activate:
       on-profile: production
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DB}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
