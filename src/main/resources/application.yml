@@ -10,9 +10,9 @@ spring:
         secretKey: ${AWS_SECRET_KEY}
       region:
         static: ${AWS_REGION}
-  queue:
-    retorno-pagamento: queue-retorno-pagamento
-    pedido-gerado: queue-pedido-gerado
+queue:
+  retorno-pagamento: queue-retorno-pagamento
+  pedido-gerado: queue-pedido-gerado
 
 ---
 
