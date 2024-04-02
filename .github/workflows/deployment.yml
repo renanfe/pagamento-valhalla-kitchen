@@ -70,5 +70,5 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ec2-user@${HOSTNAME} '
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-pagamento-valhalla-kitchen
             sudo docker rm -f api-pagamento-valhalla-kitchen
-            sudo docker run -d -p 8080:8080 --name api-pagamento-valhalla-kitchen --network=api-valhalla-kitchen ${{ secrets.DOCKERHUB_USERNAME }}/api-pedidos-valhalla-kitchen
+            sudo docker run -d -p 8080:8080 --name api-pagamento-valhalla-kitchen --network=api-valhalla-kitchen ${{ secrets.DOCKERHUB_USERNAME }}/api-pagamento-valhalla-kitchen
           '
