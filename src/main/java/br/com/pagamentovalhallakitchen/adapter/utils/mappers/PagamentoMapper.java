@@ -5,6 +5,7 @@ import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoPagamentoForm;
 import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoWebhookForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
+import com.google.gson.Gson;
 
 public class PagamentoMapper {
 
@@ -46,11 +47,7 @@ public class PagamentoMapper {
                 .build();
     }
 
-    public static RetornoPagamentoForm pagamentoToRetornoPagamentoForm (Pagamento pagamento) {
-        return RetornoPagamentoForm.builder()
-                .pedidoId(pagamento.getPedidoId())
-                .statusRetorno(pagamento.getStatus())
-                .motivo(pagamento.getMotivo())
-                .build();
+    public static String pagamentoToRetornoPagamentoForm (Pagamento pagamento) {
+        return new Gson().toJson(pagamento, Pagamento.class);
     }
 }

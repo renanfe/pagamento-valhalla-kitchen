@@ -8,12 +8,14 @@ import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoReposito
 import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUT;
 import br.com.pagamentovalhallakitchen.core.domain.Status;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Log4j2
 @Service
 public class PagamentoServiceImpl implements PagamentoService {
 
@@ -30,6 +32,8 @@ public class PagamentoServiceImpl implements PagamentoService {
         Pagamento pagamento = PagamentoMapper.pedidoGeradoFormToPagamento(pedidoGeradoForm);
         pagamento.setStatus(Status.PENDENTE);
         pagamento = pagamentoRepository.salvarPagamento(pagamento);
+        log.info(pagamento.getId());
+        log.info("Pagamento referente ao pedido: {} salvo com sucesso.", pedidoGeradoForm.getPedidoId());
         return pagamento;
     }
 
@@ -80,6 +84,7 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     private Pagamento enviarMensagem(Pagamento pagamento) {
         this.pagamentoSQSOUT.publicarRetornoPagamento(PagamentoMapper.pagamentoToRetornoPagamentoForm(pagamento));
+        log.info("Retorno do pagamento id {} enviada para fila.", pagamento.getId());
         return pagamento;
     }
 }

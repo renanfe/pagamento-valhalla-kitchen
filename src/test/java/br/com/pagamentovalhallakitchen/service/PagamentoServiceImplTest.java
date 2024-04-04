@@ -1,5 +1,6 @@
 package br.com.pagamentovalhallakitchen.service;
 
+import br.com.pagamentovalhallakitchen.adapter.driver.form.PedidoGeradoForm;
 import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoRepository;
 import br.com.pagamentovalhallakitchen.core.applications.ports.PagamentoSQSOUT;
 import br.com.pagamentovalhallakitchen.core.applications.services.PagamentoServiceImpl;
@@ -9,6 +10,7 @@ import br.com.pagamentovalhallakitchen.utils.PagamentoHelper;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +37,7 @@ class PagamentoServiceImplTest {
     @Test
     void quandoEuCrioUmPagamento_entaoDeveRetornarPagamento(){
         when(pagamentoRepository.salvarPagamento(any(Pagamento.class))).thenReturn(PagamentoHelper.buildPagamento());
-        Pagamento pagamento = pagamentoService.criarPagamento(PagamentoHelper.buildPagamentoForm());
+        Pagamento pagamento = pagamentoService.criarPagamento(new Gson().fromJson(PagamentoHelper.buildPagamentoForm(), PedidoGeradoForm.class));
         assertNotNull(pagamento);
         verify(pagamentoRepository, times(1)).salvarPagamento(any(Pagamento.class));
     }
