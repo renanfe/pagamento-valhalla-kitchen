@@ -37,7 +37,7 @@ class PagamentoControllerTest{
 
     @Test
     void quandoEuCadastroUmPagamento_entaoOPagamentoDeveSerRetornado() throws Exception {
-        PedidoGeradoForm pagamentoForm = PagamentoHelper.buildPagamentoForm();
+        String pagamentoForm = PagamentoHelper.buildPagamentoForm();
         Pagamento pagamento = PagamentoHelper.buildPagamento();
         when(pagamentoService.criarPagamento(any(PedidoGeradoForm.class))).thenReturn(pagamento);
         mvc.perform(

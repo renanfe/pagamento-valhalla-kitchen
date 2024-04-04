@@ -4,6 +4,6 @@ import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoPagamentoForm;
 
 public interface PagamentoSQSOUT {
 
-    void publicarRetornoPagamento(RetornoPagamentoForm retornoPagamentoForm);
+    void publicarRetornoPagamento(String retornoPagamentoForm);
 
 }

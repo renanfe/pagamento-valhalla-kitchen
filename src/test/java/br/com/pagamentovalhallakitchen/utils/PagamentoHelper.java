@@ -7,6 +7,7 @@ import br.com.pagamentovalhallakitchen.adapter.driver.form.RetornoWebhookForm;
 import br.com.pagamentovalhallakitchen.core.domain.Pagamento;
 import br.com.pagamentovalhallakitchen.core.domain.Status;
 import br.com.pagamentovalhallakitchen.core.domain.TipoPagamento;
+import com.google.gson.Gson;
 import io.awspring.cloud.sqs.operations.SendResult;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
@@ -16,13 +17,14 @@ import java.util.Random;
 import java.util.UUID;
 
 public class PagamentoHelper {
-    public static PedidoGeradoForm buildPagamentoForm(){
-        return PedidoGeradoForm.builder()
+    public static String buildPagamentoForm(){
+        PedidoGeradoForm pedidoGeradoForm = PedidoGeradoForm.builder()
                 .clienteId(UUID.randomUUID())
                 .pedidoId(gerarLong())
                 .tipoPagamento(TipoPagamento.CREDITO)
                 .valor(gerarBigDecimal())
                 .build();
+        return new Gson().toJson(pedidoGeradoForm, PedidoGeradoForm.class);
     }
 
     public static Pagamento buildPagamento(){
@@ -71,8 +73,8 @@ public class PagamentoHelper {
         return new SendResult(UUID.randomUUID(), "teste.com.br", buildMessage(), null);
     }
 
-    public static Message<PedidoGeradoForm> buildMessage() {
-        return new GenericMessage<PedidoGeradoForm>(buildPagamentoForm());
+    public static Message<String> buildMessage() {
+        return new GenericMessage<String>(buildPagamentoForm());
     }
 
     public static RetornoWebhookForm buildRetornoWebHookSucesso () {
@@ -92,11 +94,12 @@ public class PagamentoHelper {
 
     }
 
-    public static RetornoPagamentoForm buildRetornoPagamentoForm () {
-        return RetornoPagamentoForm.builder()
+    public static String buildRetornoPagamentoForm () {
+        RetornoPagamentoForm retornoPagamentoForm = RetornoPagamentoForm.builder()
                 .pedidoId(gerarLong())
                 .statusRetorno(Status.CONCLUIDO)
                 .motivo("teste")
                 .build();
+        return new Gson().toJson(retornoPagamentoForm, RetornoPagamentoForm.class);
     }
 }

@@ -19,7 +19,7 @@ public class PagamentoSQSOUTImpl implements PagamentoSQSOUT {
     }
 
     @Override
-    public void publicarRetornoPagamento(RetornoPagamentoForm retornoPagamentoForm) {
+    public void publicarRetornoPagamento(String retornoPagamentoForm) {
         this.sqsTemplate
                 .send(sqsSendOptions ->
                         sqsSendOptions
