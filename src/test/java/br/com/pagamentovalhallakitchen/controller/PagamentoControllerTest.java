@@ -42,7 +42,7 @@ class PagamentoControllerTest{
         when(pagamentoService.criarPagamento(any(PedidoGeradoForm.class))).thenReturn(pagamento);
         mvc.perform(
                         post("/v1/pagamentos")
-                                .content(new ObjectMapper().writeValueAsString(pagamentoForm))
+                                .content(pagamentoForm)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
