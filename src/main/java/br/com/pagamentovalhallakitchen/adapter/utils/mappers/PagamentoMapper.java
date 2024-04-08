@@ -51,6 +51,6 @@ public class PagamentoMapper {
         return new Gson().toJson(RetornoPagamentoForm.builder().pedidoId(pagamento.getPedidoId())
                         .statusRetorno(pagamento.getStatus())
                         .motivo(pagamento.getMotivo()).build()
-                , Pagamento.class);
+                , RetornoPagamentoForm.class);
     }
 }
